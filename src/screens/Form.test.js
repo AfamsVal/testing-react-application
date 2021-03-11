@@ -39,3 +39,9 @@ describe("button is clicked", ()=>{
     })
 
 })
+
+test("mock function", ()=> {
+    const mock = jest.fn(() => "I am mock function") 
+    expect(mock("calling my mock funtion")).toBe("I am mock function")
+    expect(mock).toBeCalledWith("calling my mock funtion")
+})

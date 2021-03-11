@@ -1,4 +1,4 @@
-import { render, fireEvent, act } from "@testing-library/react";
+import { render, act, screen } from "@testing-library/react";
 import Posts from "./Posts";
 import mockData from "../utils/mockData";
 
@@ -10,13 +10,30 @@ it("component is rendered", () => {
 
 describe("mocked fetch api", () => {
   beforeEach(() => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ json: () => Promise.resolve(mockData) })
+    global.fetch = jest.fn(() => Promise.resolve(mockData) 
     );
   });
-  it("fetch and render post", async () => {
-      await act(async() => render(<Posts/>))
-  });
+
+  test("fetch and render post", async () => {
+    render(<Posts/>)
+    //await act(() =>  render(<Posts/>))
+    // mockData.forEach(post =>{
+     // expect(screen.getByText("voluptatem")).toBeInTheDocument()
+    // })
+  })
 });
 
 
+test("get element by test id", () =>{
+  render(<Posts/>)
+  const myElement = screen.getByTestId('test-1')
+  expect(myElement).toBeInTheDocument()
+  expect(myElement).toHaveTextContent("My Post")
+  expect(myElement).toContainHTML("<span>")
+  expect(myElement).not.toContainHTML("<p>")
+  
+})
+
+it("check if data matches snapshot", ()=>{
+  expect(render(<Posts/>)).toMatchSnapshot()
+})
